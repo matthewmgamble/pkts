@@ -4,39 +4,26 @@
 package io.pkts.packet.sip.header.impl;
 
 import io.pkts.buffer.Buffer;
-import io.pkts.buffer.Buffers;
-import io.pkts.packet.sip.SipParseException;
-import io.pkts.packet.sip.address.Address;
 import io.pkts.packet.sip.header.ContactHeader;
+import java.util.List;
 
 
 /**
  * @author jonas@jonasborjesson.com
  */
-public class ContactHeaderImpl extends AddressParametersHeaderImpl implements ContactHeader {
+public class ContactHeaderImpl extends MultiAddressParametersHeaderImpl implements ContactHeader {
 
-    /**
-     * @param name
-     * @param address
-     * @param params
-     */
-    public ContactHeaderImpl(final Address address, final Buffer params) {
-        super(ContactHeader.NAME, address, params);
+    public ContactHeaderImpl(Buffer name, final List<AddressEntry> address) {
+        super(name, address);
     }
 
     @Override
-    public ContactHeader clone() {
-        final Buffer buffer = Buffers.createBuffer(1024);
-        transferValue(buffer);
-        try {
-            return ContactHeader.frame(buffer);
-        } catch (final SipParseException e) {
-            throw new RuntimeException("Unable to clone the Contact-header", e);
-        }
+    public ContactHeaderImpl clone() {
+        return (ContactHeaderImpl)super.clone();
     }
 
     @Override
-    public ContactHeader ensure() {
+    public ContactHeaderImpl ensure() {
         return this;
     }
 

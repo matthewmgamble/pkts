@@ -188,6 +188,32 @@ public final class SipRequestImpl extends SipMessageImpl implements SipRequest {
     /**
      * {@inheritDoc}
      */
+    
+    @Override
+    public SipResponse createResponse(final int statusCode, final Buffer payload) throws SipParseException, ClassCastException {
+        final SipResponseLine initialLine = new SipResponseLine(statusCode, getDefaultResponseReason(statusCode));
+        final SipResponse response = new SipResponseImpl(initialLine, null, payload);
+        final CallIdHeader callID = getCallIDHeader();
+        final FromHeader from = getFromHeader();
+        final ToHeader to = getToHeader();
+        final CSeqHeader cseq = getCSeqHeader();
+
+        // TODO: need to extract all via headers
+        final ViaHeader via = getViaHeader();
+        final SipHeader maxForwards = getHeader(MaxForwardsHeader.NAME);
+        response.setHeader(from);
+        response.setHeader(to);
+        response.setHeader(callID);
+        response.setHeader(cseq);
+        response.setHeader(via);
+        response.setHeader(maxForwards);
+        
+        // The TimeStamp header should be there as well but screw it.
+        // TODO: need to add any record-route headers
+
+        return response;
+    }
+    
     @Override
     public SipResponse createResponse(final int statusCode) throws SipParseException, ClassCastException {
         final SipResponseLine initialLine = new SipResponseLine(statusCode, getDefaultResponseReason(statusCode));
@@ -206,7 +232,7 @@ public final class SipRequestImpl extends SipMessageImpl implements SipRequest {
         response.setHeader(cseq);
         response.setHeader(via);
         response.setHeader(maxForwards);
-
+        
         // The TimeStamp header should be there as well but screw it.
         // TODO: need to add any record-route headers
 

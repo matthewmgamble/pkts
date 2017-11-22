@@ -14,6 +14,7 @@ import io.pkts.packet.sip.header.ContactHeader;
 import io.pkts.packet.sip.header.FromHeader;
 import io.pkts.packet.sip.header.MaxForwardsHeader;
 import io.pkts.packet.sip.header.ViaHeader;
+import io.pkts.packet.sip.impl.SipParser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,9 +66,20 @@ public class SipRequestTest extends PktsTestBase {
      */
     @Test
     public void testCreateInviteWithContactHeader() throws Exception {
-        final ContactHeader contact = ContactHeader.with().host("12.13.14.15").port(1234).transportTCP().build();
+        //final ContactHeader contact = ContactHeader.with().host("12.13.14.15").port(1234).transportTCP().build();
+		final ContactHeader contact = 
+				ContactHeader
+						.with()
+						.address(SipURI
+								.with()
+								.host("12.13.14.15")
+								.port(1234)
+								.transport(SipParser.TCP)
+								.build())
+						.build();
         final SipRequest invite = SipRequest.invite("sip:alice@example.com").from(this.from).contact(contact).build();
-        final SipURI contactURI = (SipURI) invite.getContactHeader().getAddress().getURI();
+        //final SipURI contactURI = (SipURI) invite.getContactHeader().getAddress().getURI();
+		final SipURI contactURI = (SipURI) invite.getContactHeader().getEntry(0).uri;
         assertThat(contactURI.getPort(), is(1234));
         assertThat(contactURI.getHost().toString(), is("12.13.14.15"));
         assertThat(contact.getValue().toString(), is("<sip:12.13.14.15:1234;transport=tcp>"));

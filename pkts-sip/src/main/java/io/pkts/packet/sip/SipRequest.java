@@ -93,7 +93,8 @@ public interface SipRequest extends SipMessage {
         private static final Buffer INVITE = Buffers.wrap("INVITE");
         private static final Buffer ACK = Buffers.wrap("ACK");
         private static final Buffer CANCEL = Buffers.wrap("CANCEL");
-
+        private static final Buffer NOTIFY = Buffers.wrap("NOTIFY");
+        
         private final Buffer method;
 
         private final SipURI requestURI;

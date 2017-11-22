@@ -161,4 +161,9 @@ public final class SipResponseImpl extends SipMessageImpl implements SipResponse
         return ViaHeader.frame(buffer);
     }
 
+    @Override
+    public SipResponse createResponse(int responseCode, Buffer payload) throws SipParseException, ClassCastException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

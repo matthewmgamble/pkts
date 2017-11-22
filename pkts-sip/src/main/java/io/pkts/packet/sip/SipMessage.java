@@ -89,6 +89,8 @@ public interface SipMessage extends Cloneable {
      */
     SipResponse createResponse(int responseCode) throws SipParseException, ClassCastException;
 
+    
+    SipResponse createResponse(int responseCode, Buffer payload) throws SipParseException, ClassCastException;
     /**
      * Check whether this sip message is a response or not
      * 

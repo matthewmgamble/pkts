@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * @author jonas@jonasborjesson.com
  */
-public final class ParametersSupport {
+public final class ParametersSupport implements Cloneable {
 
     /**
      * This buffer is the full original slice of the parameters as we received them. We keep this
@@ -201,6 +201,24 @@ public final class ParametersSupport {
             this.params.getBytes(0, dst);
         }
     }
+	
+	@Override
+	public boolean equals(Object obj){
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ParametersSupport that = (ParametersSupport) obj;
+		ensureParams();
+		if(!this.params.equals(that.toBuffer()))
+			return false;
+		return true;
+	}
 
     /**
      * Will create an appropriate sized buffer that will fit all parameters
@@ -213,5 +231,9 @@ public final class ParametersSupport {
         return Buffers.createBuffer(256);
     }
 
+	@Override
+	public ParametersSupport clone(){
+		return new ParametersSupport(toBuffer());
+	}
 
 }
