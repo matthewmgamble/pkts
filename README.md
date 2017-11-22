@@ -1,8 +1,7 @@
-# pkts.io
+# OpenLCR fork of pkts.io
 
-pkts.io is a pure java library for reading and writing pcaps. It's primary purpose is to manipulate/analyze existing pcaps, allowing you to build various tools around pcaps.
+This is a fork of the pkts.io library with specific changes for the OpenLCR project.  The goal is to move to the master branch of pkts and have the required changes integrated but until that is done this repo will exist to hold our specific required version of the project.  Unless you're trying to build OpenLCR you shouldn't use this fork.
 
-For full documentation, please see [aboutsip.com](http://www.aboutsip.com/pktsio/)
 
 
 
